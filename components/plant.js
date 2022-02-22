@@ -9,11 +9,15 @@ class Plant {
     this.selected = false
     this.growing = true
 
-    this.heightR = random(0.1, 0.5)
-    this.frameR = floor(random(300, 600))
+    this.heightR = random(10, 20)
+    this.growthRate = 0.1
+    this.t = floor(millis() )
+
   }
 
   show() {
+    this.t = floor(millis() )
+
     if(this.selected) {
       stroke('red')
       strokeWeight(3)
@@ -30,13 +34,14 @@ class Plant {
       let b = this.stems[i]
       b.grow()
       b.show()
+      b.showSeedPod()
 
-      if((height-b.pos.y) < (this.maxHeight*1/3)) {
-        b.showLeaf()
-      }
-      else {
-        b.showSeedPod()
-      }
+      // if((height-b.pos.y) < (this.maxHeight*1/3)) {
+      //   b.showLeaf()
+      // }
+      // else {
+      //   b.showSeedPod()
+      // }
     }
 
 
@@ -50,8 +55,9 @@ class Plant {
     }
 
     // growth
-    this.currHeight += this.heightR
-    if(frameCount % this.frameR == 0) {
+    this.currHeight += this.heightR*this.growthRate
+    if(this.t % 80 == 0) {
+      // console.log(this.t)
       let last = this.stems[this.stems.length-1]
       let dir = (this.stems.length % 2 == 0) ? -1 : 1
       this.stems.push(new Stem(
@@ -72,7 +78,7 @@ class Plant {
   dropSeeds() {
     this.stems.forEach(stem => {
       let seeds = stem.seedpod.seeds
-      seeds.forEach(seed => seed.drop())
+      seeds.forEach(seed => seed.dropping = true)
     })
   }
 

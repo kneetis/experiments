@@ -9,26 +9,29 @@ class Stem {
 
     // randomness 
     // this.lenr = random(0, )
+    this.growthRate = 0.5
     this.distR = random(20, 60)
     this.maxAngleR = random(40, 60)
     this.angleR = random(40, 60)
+    this.heightR = random(10, 20)
   }
   
   grow() {
     this.len += (this.len < this.pos.y*0.2) ? 0.1 : 0.0
-    this.angle += (abs(this.angle) < this.maxAngleR) ? 0.1 : 0.0
+    this.angle += (abs(this.angle) < this.maxAngleR) ? 1*this.growthRate : 0.0
     if(abs(this.pos0.y-this.pos.y) < this.distR) {
-      this.pos.y -= 0.1
+      this.pos.y -= this.growthRate * this.heightR
     }
 
     // update seedpod
     let dx  = cos((90-this.angle)) * this.dir*this.len
     let dy = sin((90-this.angle)) * -1*this.len
-    this.seedpod.pos = createVector(
+    let pos = createVector(
       this.pos.x + dx,
       this.pos.y + dy
     )
-    this.seedpod.angle = this.angle*this.dir
+    let angle = this.angle*this.dir
+    this.seedpod.update(pos, angle)
     this.seedpod.grow()
     
   }

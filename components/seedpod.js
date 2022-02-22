@@ -1,53 +1,67 @@
 class SeedPod {
-  constructor(x, y, angle, dir) {
+  constructor(x, y, dir, angle) {
     this.pos = createVector(x, y)
     this.nSeeds = 5
     this.seeds = []
-    for(let i = 0; i < this.nSeeds; i++) {
-      this.seeds.push(new Seed(0, -i*30))
-    }
     this.length = 100
     this.width = this.length*1/3
     this.dir = dir
-    this.angle = this.dir * this.angle
+    this.angle = this.dir * angle
     this.scale = createVector(0.5, 0.3)
+
+
+    let sx = 0
+    let sy = 0
+    let sep = 100
+    for(let i = 0; i < this.nSeeds; i++) {
+      sx = sx + sep * 1/(i+2) * this.dir
+      sy = sy - sep *(0.5 - 1/(i+2))
+      let pos = createVector(sx, sy)
+      pos = p5.Vector.add(this.pos, pos)
+      this.seeds.push(new Seed(pos.x, pos.y))
+    }
+  }
+
+  update(pos, angle) {
+    this.pos = pos
+    this.angle = angle
+    
+    let sx = 0
+    let sy = 0
+    let sep = 100
+    this.seeds.forEach((seed, i) => {
+      sx = sx + sep * 1/(i+2) * this.dir
+      sy = sy - sep *(0.5 - 1/(i+2))
+      let pos = createVector(sx, sy)
+      pos = p5.Vector.add(this.pos, pos)
+      seed.update(pos)
+    })
   }
 
   grow() {
 
     this.scale.x += (this.scale.x < 1.0) ? 0.001 : 0.0
     this.scale.y += (this.scale.y < 1.0) ? 0.001 : 0.0
-    this.seeds.forEach((seed, index) => {
-      // seed.pos = createVector(
-      //   this.pos.x, this.pos.y
-      // )
-      // let step = 5
-      // let dx  = cos((90-this.angle)) * this.dir*step*index
-      // let dy = sin((90-this.angle)) * -1*step*index - step*step*index
-      // seed.pos = createVector(
-      //   this.pos.x + dx, 
-      //   this.pos.y + dy
-      // )
-    })
+    
   }
 
   show() {
-    // this.drawBud()
     push()
-    translate(this.pos.x, this.pos.y)
-    rotate(this.angle)
-    scale(this.scale.x, this.scale.y)
-    this.seeds.forEach(seed => {
-      push()
-      translate(seed.pos.x, seed.pos.y)
-      stroke(30, 240, 10);
-      strokeWeight(2);
-      fill(50, 220, 20)
-      ellipse(0, 0, seed.r*4, seed.r*8)
-      pop()
+    translate(this.pos.x, this.pos.y) 
+    circle(0, 0, 40)
+    // this.seeds.forEach((seed, i) => {
+    //   translate(0, -i*10)
+    //   stroke(30, 240, 10);
+    //   strokeWeight(2);
+    //   fill(50, 220, 20)
+    //   ellipse(0, 0, seed.r*4, seed.r*8)
+    // })
+
+    pop()
+
+    this.seeds.forEach((seed, i) => {
       seed.show()
     })
-    pop()
   }
 
   drawBud() {
