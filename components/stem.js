@@ -1,23 +1,32 @@
 class Stem {
-  constructor(x, y, dir) {
+  constructor(x, y, dir, plant) {
+    this.plant = plant
     this.pos0 = createVector(x, y)
     this.pos = createVector(x, y)
     this.len = 0
     this.dir = dir
     this.angle = 10
-    this.seedpod = new SeedPod(this.pos.x, this.pos.y, this.dir, this.angle)
+    this.seedpod = new SeedPod(this.pos.x, this.pos.y, this.dir, this.angle, this.plant)
+    this.leaf = new Leaf(
+      this.pos.x + cos(this.angle*this.dir) * this.len, 
+      this.pos.y + sin(this.angle*this.dir) * this.len, 
+      this.angle*this.dir,
+      this.plant.genes.geneLeafLength + random(-8, 8),
+      this.plant.genes.geneLeafWidth + random(-22, 22),
+      this.plant
+    )
 
     // randomness 
     // this.lenr = random(0, )
-    this.growthRate = 0.5
+    this.growthRate = 0.2
     this.distR = random(20, 60)
     this.maxAngleR = random(40, 60)
     this.angleR = random(40, 60)
-    this.heightR = random(10, 20)
+    this.heightR = random(0, 5)
   }
   
   grow() {
-    this.len += (this.len < this.pos.y*0.2) ? 0.1 : 0.0
+    this.len += (this.len < this.pos.y*0.2) ? 10*this.growthRate : 0.0
     this.angle += (abs(this.angle) < this.maxAngleR) ? 1*this.growthRate : 0.0
     if(abs(this.pos0.y-this.pos.y) < this.distR) {
       this.pos.y -= this.growthRate * this.heightR
@@ -33,6 +42,18 @@ class Stem {
     let angle = this.angle*this.dir
     this.seedpod.update(pos, angle)
     this.seedpod.grow()
+
+    // update leaf
+    dx  = cos((90-this.angle)) * this.dir*this.len
+    dy = sin((90-this.angle)) * -1*this.len
+    pos = createVector(
+      this.pos.x + dx,
+      this.pos.y + dy
+    )
+    angle = this.angle*this.dir
+    this.leaf.update(pos, angle)
+    this.leaf.grow()
+
     
   }
   
@@ -53,6 +74,10 @@ class Stem {
   }
 
   showLeaf() {
+    this.leaf.show()
+  }
+
+  oldShowLeaf() {
     push()
     translate(this.pos.x, this.pos.y)
     rotate(this.angle*this.dir)

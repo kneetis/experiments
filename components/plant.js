@@ -3,9 +3,7 @@ class Plant {
     this.pos = createVector(x, y)
     this.maxHeight = height*2/3
     this.currHeight = 20
-    this.stems = [
-      new Stem(this.pos.x, this.pos.y, -1)
-    ]
+    this.stems = []
     this.selected = false
     this.growing = true
 
@@ -13,6 +11,17 @@ class Plant {
     this.growthRate = 0.1
     this.t = floor(millis() )
 
+    this.genes = {
+      geneLeafLength: 0,
+      geneLeafWidth: 0
+    }
+
+  }
+
+  init() {
+    // this.genes[geneLeafLength] = geneLeafLength
+    // this.genes[geneLeafWidth] = geneLeafWidth
+    this.stems.push(new Stem(this.pos.x, this.pos.y, -1, this))
   }
 
   show() {
@@ -34,14 +43,13 @@ class Plant {
       let b = this.stems[i]
       b.grow()
       b.show()
-      b.showSeedPod()
 
-      // if((height-b.pos.y) < (this.maxHeight*1/3)) {
-      //   b.showLeaf()
-      // }
-      // else {
-      //   b.showSeedPod()
-      // }
+      if((height-b.pos.y) < (this.maxHeight*1/3)) {
+        b.showLeaf()
+      }
+      else {
+        b.showSeedPod()
+      }
     }
 
 
@@ -63,7 +71,8 @@ class Plant {
       this.stems.push(new Stem(
         this.pos.x, 
         (height - this.currHeight),
-        dir
+        dir, 
+        this
       ))
     }
      

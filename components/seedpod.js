@@ -1,5 +1,6 @@
 class SeedPod {
-  constructor(x, y, dir, angle) {
+  constructor(x, y, dir, angle, plant) {
+    this.plant = plant
     this.pos = createVector(x, y)
     this.nSeeds = 5
     this.seeds = []
@@ -8,34 +9,20 @@ class SeedPod {
     this.dir = dir
     this.angle = this.dir * angle
     this.scale = createVector(0.5, 0.3)
+    this.seedSeparation = 20
 
-
-    let sx = 0
-    let sy = 0
-    let sep = 100
     for(let i = 0; i < this.nSeeds; i++) {
-      sx = sx + sep * 1/(i+2) * this.dir
-      sy = sy - sep *(0.5 - 1/(i+2))
-      let pos = createVector(sx, sy)
-      pos = p5.Vector.add(this.pos, pos)
-      this.seeds.push(new Seed(pos.x, pos.y))
+      this.seeds.push(new Seed(0, 0, this.plant))
     }
+    this.updateSeedPositions()
+    
   }
-
   update(pos, angle) {
     this.pos = pos
     this.angle = angle
-    
-    let sx = 0
-    let sy = 0
-    let sep = 100
-    this.seeds.forEach((seed, i) => {
-      sx = sx + sep * 1/(i+2) * this.dir
-      sy = sy - sep *(0.5 - 1/(i+2))
-      let pos = createVector(sx, sy)
-      pos = p5.Vector.add(this.pos, pos)
-      seed.update(pos)
-    })
+    this.seedSeparation += (this.seedSeparation < 60) ? 0.4 : 0.0
+    this.nSeeds += (floor(this.seedSeparation) % 40 == 0) ? 1 : 0
+    this.updateSeedPositions()
   }
 
   grow() {
@@ -48,7 +35,7 @@ class SeedPod {
   show() {
     push()
     translate(this.pos.x, this.pos.y) 
-    circle(0, 0, 40)
+    // circle(0, 0, 20)
     // this.seeds.forEach((seed, i) => {
     //   translate(0, -i*10)
     //   stroke(30, 240, 10);
@@ -60,9 +47,31 @@ class SeedPod {
     pop()
 
     this.seeds.forEach((seed, i) => {
+      seed.showPod()
+    })
+    this.seeds.forEach((seed, i) => {
       seed.show()
     })
   }
+
+  updateSeedPositions() {
+    let sx = 0
+    let sy = 0
+    let sep = this.seedSeparation
+    for(let i = 0; i < this.nSeeds; i++) {
+      let seed = this.seeds[i]
+      if(seed == null) {
+        seed = new Seed(0, 0, this.plant)
+        this.seeds.push(seed)
+      }
+      sx = sx + sep * 1/(i+2) * this.dir
+      sy = sy - sep *(0.5 - 1/(i+2))
+      let pos = createVector(sx, sy)
+      pos = p5.Vector.add(this.pos, pos)
+      seed.update(pos)
+    }
+  }
+
 
   drawBud() {
     push()

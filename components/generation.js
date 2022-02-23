@@ -45,51 +45,50 @@ class Generation {
       this.newSeasonPlants.push(newPlant) 
     }
 
+    circles = []
     droppedSeeds.sort((a, b) => {
-      let dist1 = Math.abs(a.pos.x - this.newSeasonPlants[0].pos.x) - Math.abs(b.pos.x - this.newSeasonPlants[0].pos.x) 
-      // let dist2 = Math.abs(a.pos.x - this.newSeasonPlants[1].pos.x) - Math.abs(b.pos.x - this.newSeasonPlants[1].pos.x) 
-      // let dist3 = Math.abs(a.pos.x - this.newSeasonPlants[2].pos.x) - Math.abs(b.pos.x - this.newSeasonPlants[2].pos.x) 
-
+      let dist1 = Math.abs(a.pos.x - this.newSeasonPlants[0].pos.x) - Math.abs(b.pos.x - this.newSeasonPlants[0].pos.x)
       return dist1
     })
-
-    circles = []
     let seed1 = droppedSeeds[0]
-    console.log(seed1)
-    circles.push(seed1.pos)
+    let plant1 = seed1.plant
+    this.newSeasonPlants[0].pos = seed1.pos
+    this.setGenes(plant1, this.newSeasonPlants[0])
 
     droppedSeeds.sort((a, b) => {
-      // let dist1 = Math.abs(a.pos.x - this.newSeasonPlants[0].pos.x) - Math.abs(b.pos.x - this.newSeasonPlants[0].pos.x) 
       let dist2 = Math.abs(a.pos.x - this.newSeasonPlants[1].pos.x) - Math.abs(b.pos.x - this.newSeasonPlants[1].pos.x) 
-      // let dist3 = Math.abs(a.pos.x - this.newSeasonPlants[2].pos.x) - Math.abs(b.pos.x - this.newSeasonPlants[2].pos.x) 
-
       return dist2
     })
-
     let seed2 = droppedSeeds[0]
-    console.log(seed2)
-    circles.push(seed2.pos)
+    let plant2 = seed2.plant
+    this.newSeasonPlants[1].pos = seed2.pos
+    this.setGenes(plant2, this.newSeasonPlants[1])
+    
 
     droppedSeeds.sort((a, b) => {
-      // let dist1 = Math.abs(a.pos.x - this.newSeasonPlants[0].pos.x) - Math.abs(b.pos.x - this.newSeasonPlants[0].pos.x) 
-      // let dist2 = Math.abs(a.pos.x - this.newSeasonPlants[1].pos.x) - Math.abs(b.pos.x - this.newSeasonPlants[1].pos.x) 
       let dist3 = Math.abs(a.pos.x - this.newSeasonPlants[2].pos.x) - Math.abs(b.pos.x - this.newSeasonPlants[2].pos.x) 
-
       return dist3
     })
-
     let seed3 = droppedSeeds[0]
-    console.log(seed3)
-    circles.push(seed3.pos)
-
-
-    this.newSeasonPlants[0].pos = seed1.pos
-    this.newSeasonPlants[1].pos = seed2.pos
+    let plant3 = seed3.plant
     this.newSeasonPlants[2].pos = seed3.pos
+    this.setGenes(plant3, this.newSeasonPlants[2])
 
     this.plants = this.newSeasonPlants
+    this.plants.forEach(plant => plant.init())
 
-    
+  }
+
+  setGenes(oldPlant, newPlant) {
+    let avgLength = 0, avgWidth = 0
+    oldPlant.stems.forEach(stem => {
+      avgLength += stem.leaf.finLength
+      avgWidth += stem.leaf.finWidth
+    })
+    avgLength /= oldPlant.stems.length
+    avgWidth /= oldPlant.stems.length
+    newPlant.genes.geneLeafLength = avgLength
+    newPlant.genes.geneLeafWidth = avgWidth
   }
 
 

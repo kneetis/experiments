@@ -6,7 +6,7 @@ let newSeasonButton
 let isDropping = false
 
 function setup() {
-  createCanvas(2000, 800)
+  createCanvas(window.innerWidth, window.innerHeight)
   angleMode(DEGREES)
 
   newSeasonButton = createButton('new season')
