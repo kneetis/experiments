@@ -2,14 +2,14 @@ class SeedPod {
   constructor(x, y, dir, angle, plant) {
     this.plant = plant
     this.pos = createVector(x, y)
-    this.nSeeds = 5
+    this.nSeeds = 7
     this.seeds = []
     this.length = 100
     this.width = this.length*1/3
     this.dir = dir
     this.angle = this.dir * angle
     this.scale = createVector(0.5, 0.3)
-    this.seedSeparation = 20
+    this.seedSeparation = 2
 
     for(let i = 0; i < this.nSeeds; i++) {
       this.seeds.push(new Seed(0, 0, this.plant))
@@ -20,8 +20,8 @@ class SeedPod {
   update(pos, angle) {
     this.pos = pos
     this.angle = angle
-    this.seedSeparation += (this.seedSeparation < 60) ? 0.4 : 0.0
-    this.nSeeds += (floor(this.seedSeparation) % 40 == 0) ? 1 : 0
+    this.seedSeparation += (this.seedSeparation < 40) ? 0.1 : 0.0
+    // this.nSeeds += (floor(this.seedSeparation) % 35 == 0) ? 1 : 0
     this.updateSeedPositions()
   }
 

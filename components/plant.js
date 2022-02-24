@@ -48,7 +48,7 @@ class Plant {
         b.showLeaf()
       }
       else {
-        b.showSeedPod()
+        b.showPod()
       }
     }
 
