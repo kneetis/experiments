@@ -15,6 +15,10 @@ leaving other plants to produce seeds for the next generation.
   - [ ] Add backgrounds
   - [ ] Make multiple bolts of lightning
   - [ ] Adjust colours and make new generation inherit colours 
-  - [ ] User testing
-  - [ ] figure out the legal aspect
-  - [ ] test version on itch
+  - [ ] Setting up game - itch.io
+  - [ ] User Interface 
+  - [ ] License: Consulting a lawyer
+  - [ ] User Testing: Zoom Sessions (C3; Friends&acquaintances; Individuals who are in the field)
+  - [ ] User Testing: In-Person (Children; Farming Community)
+  - [ ] Budgeting
+  
