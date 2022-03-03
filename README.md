@@ -1,3 +1,12 @@
+## PLANT EVOLUTION SIMULATION
+The simulation shows a population of plants (roughly based on plants in the mustard family).
+The lifecycle is shown, from germination to growth of leaves, buds, flowers, and seedpods.
+The seedpods eventually drop their seeds, the old plants whither away, and a new population grows.
+Users can select which plants the seeds for the new generation will be from.
+This will model the process of evolution of the population by artificial selection (selective breeding).
+If users do not make selections. the population will anyway evolve through natural selection.
+Various events will be simulated in which certain plants will be destroyed, 
+leaving other plants to produce seeds for the next generation.
 ## TODO
   - [ ] fix: stems growing away from stalk
   - [ ] fix: bud openning
