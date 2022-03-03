@@ -17,3 +17,4 @@ leaving other plants to produce seeds for the next generation.
   - [ ] Adjust colours and make new generation inherit colours 
   - [ ] User testing
   - [ ] figure out the legal aspect
+  - [ ] test version on itch
